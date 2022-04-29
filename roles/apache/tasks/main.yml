@@ -1,0 +1,23 @@
+---
+# tasks file for apache
+
+- name: Install apache on Debian fam
+  apt:
+    name: apache2
+    state: latest
+    update_cache: yes
+  when: 
+    ansible_os_family == "Debian" or ansible_os_family == "Ubuntu"
+  notify: Run debian apache
+
+- name: Install apache on centOs fam
+  apt:
+    name: httpd
+    state: latest
+  when: 
+    ansible_os_family == "CentOS" or ansible_os_family == "Red Hat Enterprise Linux"
+  notify: Run CentOs apache
+
+- name: Copy index.html
+  copy: src=files/index.html dest={{ html_dir }} mode=0644
+  notify: Restart debian apache

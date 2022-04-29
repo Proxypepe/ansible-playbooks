@@ -1,0 +1,8 @@
+---
+- name: Apache server installed
+  hosts: apache
+  gather_facts: true
+  become: yes
+
+  roles:
+    - apache

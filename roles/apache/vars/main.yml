@@ -1,0 +1,3 @@
+---
+# vars file for apache
+html_dir: /var/www/html/
