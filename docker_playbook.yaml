@@ -1,0 +1,37 @@
+---
+- name: Install docker
+  hosts: apache
+  gather_facts: true
+  become: yes
+
+  tasks:
+  - name: Install docker
+    apt:
+      name: docker.io
+      state: present
+    when:
+      ansible_os_family == "Debian"
+
+  - name: Start docker service
+    service:
+      name: docker
+      enabled: yes
+      state: started
+    when:
+      ansible_os_family == "Debian"
+
+  - name: Add user group
+    ansible.builtin.user:
+      name: alex
+      groups: docker
+      append: yes
+
+    notify: Reload service
+
+
+  handlers:
+  - name: Reload service
+    service:
+      name: docker
+      state: reloaded
+  
