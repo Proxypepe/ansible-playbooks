@@ -16,7 +16,6 @@
     kubectl_repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
 
   tasks:
-
   - name: Download deb package
     get_url:
       url: "{{ minikube_deb_path }}"

@@ -1,0 +1,10 @@
+---
+# tasks file for roles/kube
+- name: Download deb package
+  get_url:
+    url: "{{ minikube_deb_path }}"
+    dest: "/home/{{ target_user }}/{{ minikube_name }}.deb"
+  
+- name: Install deb pachage
+  apt:
+    deb: "/home/{{ target_user }}/{{ minikube_name }}.deb"

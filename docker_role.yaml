@@ -1,0 +1,8 @@
+---
+- name: Install docker
+  hosts: apache
+  gather_facts: true
+  become: yes
+
+  roles:
+    - docker

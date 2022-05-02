@@ -1,0 +1,21 @@
+---
+# tasks file for roles/kube
+- name: Add kubectl apt GPG key
+  apt_key:
+    url: "{{ kubectl_gpg_key }}"
+    state: present
+
+- name: Add kubectl repo
+  apt_repository:
+    repo: "{{ kubectl_repo }}"
+    state: present
+
+- name: Update apt cache 
+  apt:
+    update_cache: yes
+    state: latest
+
+- name: Install kubectl
+  apt:
+    name: kubectl
+    state: present

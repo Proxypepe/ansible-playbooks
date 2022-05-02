@@ -1,0 +1,8 @@
+---
+- name: Install jenkins
+  hosts: apache
+  gather_facts: true
+  become: yes
+
+  roles:
+    - jenkins

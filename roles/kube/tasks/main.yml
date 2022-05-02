@@ -1,0 +1,8 @@
+---
+# tasks file for roles/kube
+
+- name: Include Minikube
+  include_tasks: minikube.yaml
+
+- name: Include Kubectl
+  include_tasks: kubectl.yaml

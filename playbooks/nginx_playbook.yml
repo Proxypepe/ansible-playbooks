@@ -46,12 +46,12 @@
   
 
   handlers:
-  - name: Nginx Systemd
-    systemd:
+  - name: Nginx service
+    service:
       name: nginx
       enabled: yes
       state: started
       
   - name: Reload Nginx
-    systemd: name=nginx state=reloaded
+    service: name=nginx state=reloaded
 

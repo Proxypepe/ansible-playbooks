@@ -1,0 +1,9 @@
+---
+# vars file for roles/kube
+target_user: alex
+
+minikube_deb_path: "https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb"
+minikube_name: "minikube_latest_amd64"
+
+kubectl_gpg_key: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+kubectl_repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"

@@ -1,0 +1,6 @@
+---
+# vars file for roles/jenkins
+jenkins_apt_key: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
+jenkins_repo: "deb https://pkg.jenkins.io/debian-stable binary/"
+java_version: "openjdk-11-jre"
+user_name: "alex"
