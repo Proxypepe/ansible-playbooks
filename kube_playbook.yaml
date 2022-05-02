@@ -1,0 +1,47 @@
+---
+
+- name: Install minikube and kubectl
+  hosts: apache
+  gather_facts: true
+  become: yes
+
+
+  vars:
+    target_user: alex
+
+    minikube_deb_path: "https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb"
+    minikube_name: "minikube_latest_amd64"
+
+    kubectl_gpg_key: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    kubectl_repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+
+  tasks:
+
+  - name: Download deb package
+    get_url:
+      url: "{{ minikube_deb_path }}"
+      dest: "/home/{{ target_user }}/{{ minikube_name }}.deb"
+    
+  - name: Install deb pachage
+    apt:
+      deb: "/home/{{ target_user }}/{{ minikube_name }}.deb"
+
+  - name: Add kubectl apt GPG key
+    apt_key:
+      url: "{{ kubectl_gpg_key }}"
+      state: present
+
+  - name: Add kubectl repo
+    apt_repository:
+      repo: "{{ kubectl_repo }}"
+      state: present
+
+  - name: Update apt cache 
+    apt:
+      update_cache: yes
+      state: latest
+  
+  - name: Install kubectl
+    apt:
+      name: kubectl
+      state: present
