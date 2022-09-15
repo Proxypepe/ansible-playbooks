@@ -1,5 +1,5 @@
 ---
-- hosts: webservers
+- hosts: centos
 
   tasks:
     - name: Import Remi GPG key.

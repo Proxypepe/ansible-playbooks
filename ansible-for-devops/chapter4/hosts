@@ -1,7 +1,13 @@
 
 
-[webservers]
+[centos]
 server-1 ansible_host=192.168.0.106 ansible_user=root ansible_password=1234
 
-[webservers:vars]
+[centos:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[ubuntu]
+server-1 ansible_host=192.168.0.107 ansible_user=root ansible_password=1234
+
+[ubuntu:vars]
 ansible_python_interpreter=/usr/bin/python3
