@@ -1,0 +1,27 @@
+---
+- hosts: webservers
+
+  tasks:
+    - name: Import Remi GPG key.
+      rpm_key: "key={{ item.key }} state=present"
+      with_items:
+        - key: "http://rpms.famillecollet.com/RPM-GPG-KEY-remi"
+
+    - name: Install Remi repo.
+      command: "rpm -Uvh --force {{ item.href }} \
+      creates={{ item.creates }}"
+      with_items:
+      - { href: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm", 
+        creates: "/etc/yum.repos.d/remi.repo" }
+    
+    - name: Install EPEL repo.
+      yum: name=epel-release state=present
+
+    - name: Ensure firewalld is stoped
+      service: name=firewalld state=stopped
+
+    - name: Install Node.js and npm.
+      yum: name=npm state=present enablerepo=epel
+
+    - name: Install Forever
+      npm: name=forever global=yes state=present 
