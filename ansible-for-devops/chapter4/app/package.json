@@ -1,0 +1,8 @@
+{
+    "name": "examplenodeapp",
+    "description": "Example Express Node.js app.",
+    "author": "Alex Proxypepe",
+    "dependencies": {
+        "express": "^4.18.1"
+    }
+}
