@@ -1,0 +1,11 @@
+---
+foo: bar
+
+foo_list:
+  - one
+  - two
+  - three
+
+# foo[0]
+# {{ ansible_eth0.ipv4.address }}
+# {{ ansible_eth0['ipv4']['address'] }}

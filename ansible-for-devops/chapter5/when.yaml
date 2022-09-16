@@ -1,0 +1,90 @@
+---
+- command: my-app --status
+  register: myapp_result
+- command: do-something-to-my-app
+  when: "'ready' in myapp_result.stdout"
+
+
+- name: Install dependencies via Composer.
+  command: "/usr/local/bin/composer global require phpunit/phpunit --prefer-dist"
+  register: composer
+  changed_when: "'Nothing to install or update' not in composer.stdout"
+
+- name: Import a Jenkins job via CLI.
+  shell: >
+    java -jar /opt/jenkins-cli.jar -s http://localhost:8080/
+    create-job "My Job" < /usr/local/my-job.xml
+  register: import
+  failed_when: "import.stderr and 'already exists' not in import.stderr"
+
+
+- name: Add server to Munin monitoring configuration.
+  command: monitor-server webservers {{ inventory_hostname }}
+  delegate_to: "{{ monitoring_master }}"
+
+- name: Remove server from load balancer.
+  command: remove-from-lb {{ inventory_hostname }}
+  delegate_to: 127.0.0.1
+
+# or
+# delegate_to: localhost is equal local_action
+
+- name: Remove server from load balancer.
+  local_action: command remove-from-lb {{ inventory_hostname }}
+
+- name: Wait for webserver to start.
+  local_action:
+    module: wait_for
+    host: "{{ inventory_hostname }}"
+    port: "{{ webserver_port }}"
+    delay: 10
+    timeout: 300
+    state: started
+
+
+---
+- hosts: 127.0.0.1
+  gather_facts: no
+
+  tasks:
+    - name: Check the current system date.
+      command: date
+      register: date
+
+    - name: Print the current system date.
+      debug: var=date.stdout
+
+# User input
+---
+- hosts: all
+
+  vars_prompt:
+    - name: share_user
+      prompt: "What is your network username?"
+
+    - name: share_pass
+      prompt: "What is your network password?"
+      private: yes
+
+
+---
+# apply tags to an entire play.
+- hosts: webservers
+  tags: deploy
+
+  roles:
+  # Tags applied to a role will be applied to the tasks in the role.
+  - { role: tomcat, tags: ['tomcat', 'app'] }
+
+  tasks:
+    - name: Notify on completion.
+      local_action:
+        module: osx_say
+        msg: "{{inventory_hostname}} is finished!"
+        voice: Zarvox
+      tags:
+        - notifications
+        - say
+
+    - include: foo.yml
+      tags: foo

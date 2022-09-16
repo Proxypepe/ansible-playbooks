@@ -1,0 +1,24 @@
+---
+- hosts: example
+  vars:
+    foo: bar
+
+  tasks:
+    - debug: msg="Variable 'foo' is set to {{ foo }}"
+
+---
+- hosts: example
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - debug: msg="Variable 'foo' is set to {{ foo }}"
+
+---
+- hosts: example
+  vars_files:
+    - [ "apache_{{ ansible_os_family }}.yml", "apache_default.yml" ]
+  
+  tasks:
+    - debug: msg="Variable 'apache' is set to {{ apache }}"
+
