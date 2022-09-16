@@ -6,3 +6,10 @@ drupal_core_path: "/var/www/drupal-{{ drupal_core_version }}-dev"
 domain: "drupaltest"
 
 drupal_site_name: "D8 Test"
+
+
+download_dir: /tmp
+
+solr_dir: /opt/solr
+solr_version: 8.11.2
+

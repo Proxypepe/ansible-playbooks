@@ -1,0 +1,59 @@
+---
+- hosts: ubuntu
+
+  become: yes
+
+  vars_files:
+  - vars.yaml
+
+  pre_tasks:
+  - name: Update apt cache if needed.
+    apt: update_cache=yes cache_valid_time=3600
+
+  tasks:
+
+  # find multi
+  - name: Install tomcat deps first.
+    apt_repository: repo='deb http://us.archive.ubuntu.com/ubuntu/ xenial main' update_cache=yes
+  
+  - name:  Install tomcat deps second.
+    apt_repository: repo='deb http://us.archive.ubuntu.com/ubuntu/ xenial universe' update_cache=yes
+
+  - name: Install Tomcat 9.
+    apt: name="{{ item }}" state=present
+    with_items:
+      - tomcat9
+      - tomcat9-admin
+
+  - name: Ensure Tomcat is started and enabled on boot.
+    service: name=tomcat9 state=started enabled=yes
+
+  - name: Download Solr.
+    get_url:
+      url: "https://archive.apache.org/dist/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz"
+      dest: "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+
+  - name: Expand Solr.
+    unarchive:
+      src: "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+      dest: "{{ download_dir }}"
+      remote_src: true
+      creates: "{{ download_dir }}/solr-{{ solr_version }}/README.txt"
+
+  - name: Run Solr installation script.
+    command: >
+      {{ download_dir }}/solr-{{ solr_version }}/bin/install_solr_service.sh
+      {{ download_dir }}/solr-{{ solr_version }}.tgz
+      -i /opt
+      -d /var/solr
+      -u solr
+      -s solr
+      -p 8983
+      creates={{ solr_dir }}/bin/solr
+  - name: Ensure solr is started and enabled on boot.
+    service: name=solr state=started enabled=yes
+
+  handlers:
+  - name: restart tomcat
+    service: name=tomcat9 state=restarted
+    
