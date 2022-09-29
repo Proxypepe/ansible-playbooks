@@ -1,0 +1,6 @@
+---
+- name: Install Pip and Install Docker Python library.
+  apt: name={{ item }} update_cache=yes state=present
+  with_items:
+    - python3-pip
+    - python3-docker
