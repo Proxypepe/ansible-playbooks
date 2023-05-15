@@ -1,0 +1,22 @@
+- name: test my new module
+  hosts: localhost
+  tasks:
+  - name: run the new module
+    my_test:
+      name: 'hello'
+    register: testout
+
+  - name: dump test output
+    debug:
+      msg: '{{ testout }}'
+
+  - name: check if host can reach local ssh
+    can_reach: host=localhost port=22 timeout=1
+
+  - name: check if host can reach local ssh
+    can_reach_sh: host=localhost port=22 timeout=1
+    register: reach_res
+
+  - name: dump reach sh command
+    debug:
+      msg: '{{ reach_res }}'
