@@ -1,0 +1,22 @@
+---
+- name: Configure | Copy all bin config templates
+  template:
+    src: "{{ item }}"
+    dest: "{{ bitbucket_install_dir }}/atlassian-bitbucket-{{ bitbucket_version }}/bin/{{ item | basename | splitext | first }}"
+    owner: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    mode: 0755
+  with_fileglob:
+    - templates/bin/*
+  notify: restart bitbucket
+  tags: bitbucket_configure
+
+- name: Configure | Copy Bitbucket properties
+  template:
+    src: "{{ bitbucket_properties_template_path }}"
+    dest: "{{ bitbucket_home_dir }}/shared/bitbucket.properties"
+    owner: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    mode: 0644
+  notify: restart bitbucket
+  tags: bitbucket_configure
