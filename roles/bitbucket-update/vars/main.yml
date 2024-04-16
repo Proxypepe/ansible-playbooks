@@ -1,0 +1,9 @@
+---
+# vars file for bitbucket-update
+bitbucket_group: bitbucket
+bitbucket_user: bitbucket
+
+bitbucket_version: 8.19.1
+
+bitbucket_url: http://192.168.0.112:8080
+bitbucket_package: "atlassian-bitbucket-{{ bitbucket_version }}"

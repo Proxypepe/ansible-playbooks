@@ -1,0 +1,30 @@
+---
+# defaults file for bitbucket-update
+
+bitbucket_install_dir: /opt/atlassian/bitbucket
+bitbucket_home_dir: /var/atlassian/bitbucket
+bitbucket_plugins_dir: "{{ bitbucket_home_dir }}/shared/plugins/installed-plugins"
+bitbucket_port: 7990
+
+bitbucket_properties_template_path: bitbucket.properties.j2
+
+
+bitbucket_java_home: /usr/lib/jvm/java-11-openjdk
+bitbucket_jvm_min_memory: 512m
+bitbucket_jvm_max_memory: 1024m
+
+# bitbucket_database_configuration:
+#   driver: org.postgresql.Driver
+#   url: jdbc:postgresql://localhost:5432/bitbucket
+#   user: bitbucketuser
+#   password: jellyfish
+
+# ## Sample setup configuration
+# bitbucket_setup_run:
+#   displayName: Bitbucket
+#   baseUrl: http://bitbucket.example.com:7990
+#   license: xxxx
+#   sysadmin_username: admin
+#   sysadmin_password: password
+#   sysadmin_displayName: Administrator
+#   sysadmin_emailAddress: admin@example.com
